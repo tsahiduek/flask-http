@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-http
+spec:
+  selector:
+    k8s-app: flask-http
+  ports:
+    - port: 80
+      targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-http
+  namespace: default
+  labels:
+    k8s-app: flask-http
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: flask-http
+  template:
+    metadata:
+      labels:
+        k8s-app: flask-http
+    spec:
+      containers:
+        - name: flask-http
+          image: tduek/flask-http:m-0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 500m
+              memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 128Mi
