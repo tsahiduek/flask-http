@@ -1,0 +1,35 @@
+name: flask-http
+replicas: 1
+
+image: tduek/flask-http:m-0.1
+
+createNamespace: false
+namespace: flask-http
+
+# Service Type allow you to specify what kind of service you want.
+# Possible values for ServiceType are:
+# ClusterIP | NodePort | LoadBalancer | ExternalName
+serviceType: ClusterIP
+
+# A Service can map an incoming port to any targetPort.
+# targetPort is where application is listening on inside the container.
+servicePort: 80
+serviceTargetPort: 5000
+
+resources:
+    requests:
+        cpu: 100m
+        memory: 128Mi
+    limits:
+        cpu: 200m
+        memory: 256Mi
+
+# Specify all environment variables to be added to the container.
+# The following two maps, config and secrets, are put into a ConfigMap
+# and a Secret, respectively.
+# Both are added to the container environment in podSpec as envFrom source.
+# env:
+#   config:
+#     key1: value1
+#   secrets:
+#     key2: value2
